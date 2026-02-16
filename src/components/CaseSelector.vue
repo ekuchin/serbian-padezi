@@ -1,7 +1,7 @@
 <template>
   <div class="selector-container">
     <div class="selector-group">
-      <label>Gender:</label>
+      <label>Род:</label>
       <div class="button-row">
         <button
           v-for="g in ['masculine', 'feminine', 'neuter']"
@@ -9,13 +9,13 @@
           :class="['selector-btn', { active: localGender === g }]"
           @click="selectGender(g as Gender)"
         >
-          {{ capitalizeFirst(g) }}
+          {{ genderLabel(g) }}
         </button>
       </div>
     </div>
 
     <div class="selector-group">
-      <label>Number:</label>
+      <label>Число:</label>
       <div class="button-row">
         <button
           v-for="n in ['singular', 'plural']"
@@ -23,13 +23,13 @@
           :class="['selector-btn', { active: localNumber === n }]"
           @click="selectNumber(n as Quantity)"
         >
-          {{ capitalizeFirst(n) }}
+          {{ numberLabel(n) }}
         </button>
       </div>
     </div>
 
     <div class="selector-group">
-      <label>Case:</label>
+      <label>Падеж:</label>
       <div class="button-row cases-row">
         <button
           v-for="c in [
@@ -44,7 +44,7 @@
           :class="['selector-btn', { active: localCase === c }]"
           @click="selectCase(c as Case)"
         >
-          {{ capitalizeFirst(c) }}
+          {{ caseLabel(c) }}
         </button>
       </div>
     </div>
