@@ -1,35 +1,52 @@
 <template>
   <div class="selector-container">
     <div class="selector-group">
-      <label for="gender">Gender:</label>
-      <select id="gender" v-model="localGender" @change="emitChanges">
-        <option value="">-- Select Gender --</option>
-        <option value="masculine">Masculine</option>
-        <option value="feminine">Feminine</option>
-        <option value="neuter">Neuter</option>
-      </select>
+      <label>Gender:</label>
+      <div class="button-row">
+        <button
+          v-for="g in ['masculine', 'feminine', 'neuter']"
+          :key="g"
+          :class="['selector-btn', { active: localGender === g }]"
+          @click="selectGender(g as Gender)"
+        >
+          {{ capitalizeFirst(g) }}
+        </button>
+      </div>
     </div>
 
     <div class="selector-group">
-      <label for="number">Number:</label>
-      <select id="number" v-model="localNumber" @change="emitChanges">
-        <option value="">-- Select Number --</option>
-        <option value="singular">Singular</option>
-        <option value="plural">Plural</option>
-      </select>
+      <label>Number:</label>
+      <div class="button-row">
+        <button
+          v-for="n in ['singular', 'plural']"
+          :key="n"
+          :class="['selector-btn', { active: localNumber === n }]"
+          @click="selectNumber(n as Quantity)"
+        >
+          {{ capitalizeFirst(n) }}
+        </button>
+      </div>
     </div>
 
     <div class="selector-group">
-      <label for="case">Case:</label>
-      <select id="case" v-model="localCase" @change="emitChanges">
-        <option value="">-- Select Case --</option>
-        <option value="nominative">Nominative</option>
-        <option value="genitive">Genitive</option>
-        <option value="dative">Dative</option>
-        <option value="accusative">Accusative</option>
-        <option value="locative">Locative</option>
-        <option value="instrumental">Instrumental</option>
-      </select>
+      <label>Case:</label>
+      <div class="button-row cases-row">
+        <button
+          v-for="c in [
+            'nominative',
+            'genitive',
+            'dative',
+            'accusative',
+            'locative',
+            'instrumental',
+          ]"
+          :key="c"
+          :class="['selector-btn', { active: localCase === c }]"
+          @click="selectCase(c as Case)"
+        >
+          {{ capitalizeFirst(c) }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -74,10 +91,20 @@ export default defineComponent({
     },
   },
   methods: {
-    emitChanges() {
-      this.$emit('update:gender', this.localGender);
-      this.$emit('update:number', this.localNumber);
-      this.$emit('update:case', this.localCase);
+    selectGender(g: Gender) {
+      this.localGender = g;
+      this.$emit('update:gender', g);
+    },
+    selectNumber(n: Quantity) {
+      this.localNumber = n;
+      this.$emit('update:number', n);
+    },
+    selectCase(c: Case) {
+      this.localCase = c;
+      this.$emit('update:case', c);
+    },
+    capitalizeFirst(str: string): string {
+      return str.charAt(0).toUpperCase() + str.slice(1);
     },
   },
 });
@@ -86,39 +113,60 @@ export default defineComponent({
 <style scoped>
 .selector-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 25px;
   margin-bottom: 30px;
-  flex-wrap: wrap;
 }
 
 .selector-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 label {
   font-weight: bold;
-  font-size: 14px;
-  color: #333;
+  font-size: 16px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-select {
-  padding: 8px 12px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cases-row {
+  gap: 8px;
+}
+
+.selector-btn {
+  padding: 10px 16px;
+  border: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 6px;
   font-size: 14px;
-  min-width: 150px;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
-select:hover {
-  border-color: #999;
+.selector-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-select:focus {
-  outline: none;
-  border-color: #4a90e2;
+.selector-btn.active {
+  background-color: #4a90e2;
+  border-color: #2e5c8a;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+  font-weight: 600;
+}
+
+.selector-btn.active:hover {
+  background-color: #357abd;
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.6);
 }
 </style>
