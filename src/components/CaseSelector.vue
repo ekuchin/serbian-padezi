@@ -150,8 +150,7 @@ export default defineComponent({
 label {
   font-weight: bold;
   font-size: 16px;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: #222;
 }
 
 .button-row {
@@ -166,30 +165,30 @@ label {
 
 .selector-btn {
   padding: 10px 16px;
-  border: 2px solid white;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  border: 2px solid #bdbdbd;
+  background-color: #ffffff;
+  color: #222;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .selector-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #f5f5f5;
   transform: translateY(-2px);
 }
 
 .selector-btn.active {
-  background-color: #4a90e2;
-  border-color: #2e5c8a;
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+  background-color: #bdbdbd;
+  border-color: #8f8f8f;
+  box-shadow: none;
   font-weight: 600;
+  color: #111;
 }
 
 .selector-btn.active:hover {
-  background-color: #357abd;
-  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.6);
+  background-color: #a7a7a7;
 }
 </style>

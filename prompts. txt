@@ -1,7 +1,13 @@
 Generate Vue 3 project with: TypeScript, ESLint, Prettier, Vite
 
+Initial prompt:
 My project is Reference page.
 I want to select one value in each of three conditions: gender, number and case.
-
 Application should show me information according to this conditions:
 Endings, prepositions and example
+
+Additional prompts:
+- Selector should not be comboboxes, but 3 rows of buttons
+- Let's use russian language in appliation instead of english, but button's captions should be in serbian
+- Empty page on startup
+- Use neutral gray color scheme instead of purple/blue, keep red color where it is used now

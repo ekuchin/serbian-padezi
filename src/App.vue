@@ -57,11 +57,11 @@ export default defineComponent({
 }
 
 .header {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
+  background-color: #f0f0f0;
+  color: #222;
   padding: 40px 20px;
   text-align: center;
-  border-bottom: 4px solid #4a90e2;
+  border-bottom: 4px solid #cccccc;
 }
 
 .header h1 {
@@ -73,7 +73,7 @@ export default defineComponent({
 .subtitle {
   margin: 0;
   font-size: 16px;
-  opacity: 0.9;
+  color: #444;
 }
 
 .main {

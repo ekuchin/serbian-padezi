@@ -86,7 +86,7 @@ h3 {
   color: #333;
   font-size: 16px;
   margin: 0 0 10px 0;
-  border-bottom: 2px solid #4a90e2;
+  border-bottom: 2px solid #777777;
   padding-bottom: 8px;
 }
 
@@ -123,7 +123,7 @@ h3 {
   margin: 0;
   padding: 10px;
   background-color: #fff;
-  border-left: 4px solid #27ae60;
+  border-left: 4px solid #999999;
   font-style: italic;
 }
 
