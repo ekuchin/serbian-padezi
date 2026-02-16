@@ -2,26 +2,26 @@
   <div class="result-container">
     <div v-if="hasSelection" class="result-content">
       <div class="result-section">
-        <h3>Ending</h3>
+        <h3>Окончание</h3>
         <p class="ending">{{ caseData?.ending }}</p>
       </div>
 
       <div class="result-section">
-        <h3>Prepositions</h3>
+        <h3>Предлоги</h3>
         <ul v-if="caseData?.prepositions && caseData.prepositions.length > 0" class="prepositions">
           <li v-for="(prep, idx) in caseData.prepositions" :key="idx">{{ prep }}</li>
         </ul>
-        <p v-else class="none">No typical prepositions</p>
+        <p v-else class="none">Нет типичных предлогов</p>
       </div>
 
       <div class="result-section">
-        <h3>Example</h3>
+        <h3>Пример</h3>
         <p class="example">{{ caseData?.example }}</p>
       </div>
     </div>
 
     <div v-else class="no-selection">
-      <p>Select gender, number, and case to view the information</p>
+      <p>Выберите род, число и падеж для просмотра информации</p>
     </div>
   </div>
 </template>

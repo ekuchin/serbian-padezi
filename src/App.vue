@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <header class="header">
-      <h1>Serbian Padezi (Cases) Reference</h1>
+      <h1>Сербские падежи (Padezi) - Справочник</h1>
       <p class="subtitle">
-        Select gender, number, and case to view endings, prepositions, and examples
+        Выберите род, число и падеж для просмотра окончаний, предлогов и примеров
       </p>
     </header>
 
@@ -19,7 +19,7 @@
 
       <ResultDisplay
         :gender="selectedGender as Gender"
-        :number="selectedNumber as Number"
+        :number="selectedNumber as Quantity"
         :case="selectedCase as Case"
       />
     </main>

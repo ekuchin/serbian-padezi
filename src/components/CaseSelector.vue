@@ -103,8 +103,31 @@ export default defineComponent({
       this.localCase = c;
       this.$emit('update:case', c);
     },
-    capitalizeFirst(str: string): string {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    genderLabel(g: string): string {
+      const labels: Record<string, string> = {
+        masculine: 'Muški rod',
+        feminine: 'Ženski rod',
+        neuter: 'Srednji rod',
+      };
+      return labels[g] || g;
+    },
+    numberLabel(n: string): string {
+      const labels: Record<string, string> = {
+        singular: 'Jednina',
+        plural: 'Množina',
+      };
+      return labels[n] || n;
+    },
+    caseLabel(c: string): string {
+      const labels: Record<string, string> = {
+        nominative: 'Nominativ',
+        genitive: 'Genitiv',
+        dative: 'Dativ',
+        accusative: 'Akuzativ',
+        locative: 'Lokativ',
+        instrumental: 'Instrumental',
+      };
+      return labels[c] || c;
     },
   },
 });
