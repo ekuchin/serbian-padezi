@@ -1,0 +1,7 @@
+Generate Vue 3 project with: TypeScript, ESLint, Prettier, Vite
+
+My project is Reference page.
+I want to select one value in each of three conditions: gender, number and case.
+
+Application should show me information according to this conditions:
+Endings, prepositions and example
