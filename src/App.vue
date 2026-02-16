@@ -51,7 +51,7 @@ export default defineComponent({
 <style scoped>
 #app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
   padding: 0;
   margin: 0;
 }
