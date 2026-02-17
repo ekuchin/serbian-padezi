@@ -2,8 +2,13 @@
   <div class="result-container">
     <div v-if="hasSelection" class="result-content">
       <div class="result-section">
-        <h3>Окончание</h3>
+        <h3>Окончание существительных</h3>
         <p class="ending">{{ caseData?.ending }}</p>
+      </div>
+
+      <div class="result-section">
+        <h3>Окончание прилагательных</h3>
+        <p class="ending">{{ adjectiveInfo?.ending }}</p>
       </div>
 
       <div class="result-section">
@@ -29,6 +34,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { cases, Gender, Quantity, Case, CaseInfo } from '../data/cases';
+import { adjectiveEndings, AdjectiveInfo } from '../data/adjectives';
 
 export default defineComponent({
   name: 'ResultDisplay',
@@ -53,6 +59,13 @@ export default defineComponent({
     caseData(): CaseInfo | null {
       if (!this.hasSelection) return null;
       return cases[this.gender!][this.number!][this.case!] || null;
+    },
+    adjectiveInfo(): AdjectiveInfo | null {
+      if (!this.hasSelection) return null;
+      const caseKey = this.case!;
+      const key = this.number === 'plural' ? 'plural' : this.gender!;
+      // @ts-ignore - index with dynamic key (masculine|feminine|neuter|plural)
+      return (adjectiveEndings as any)[caseKey]?.[key] || null;
     },
   },
 });
@@ -126,6 +139,8 @@ h3 {
   border-left: 4px solid #999999;
   font-style: italic;
 }
+
+/* adjective endings use the same .ending style as noun endings */
 
 .none {
   color: #999;

@@ -11,3 +11,12 @@ Additional prompts:
 - Let's use russian language in appliation instead of english, but button's captions should be in serbian
 - Empty page on startup
 - Use neutral gray color scheme instead of purple/blue, keep red color where it is used now
+- Change app. background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); to grey schema also
+- Change Examples and prepositions language to Russian
+- Prepositions and examples shoul be on serbian language with russian translation
+
+Create additional section for adjective endings
+Add adjectives to examples
+Use only typical situations in examples
+Create separate section for exceptions (like word dete(child))
+Use at least five examples

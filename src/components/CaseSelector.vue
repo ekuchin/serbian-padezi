@@ -51,86 +51,87 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script setup lang="ts">
+import { ref, watch } from 'vue';
 import { Gender, Quantity, Case } from '../data/cases';
 
-export default defineComponent({
-  name: 'CaseSelector',
-  props: {
-    gender: {
-      type: String as PropType<Gender | ''>,
-      default: '',
-    },
-    number: {
-      type: String as PropType<Quantity | ''>,
-      default: '',
-    },
-    case: {
-      type: String as PropType<Case | ''>,
-      default: '',
-    },
-  },
-  emits: ['update:gender', 'update:number', 'update:case'],
-  data() {
-    return {
-      localGender: this.gender || '',
-      localNumber: this.number || '',
-      localCase: this.case || '',
-    };
-  },
-  watch: {
-    gender(newVal) {
-      this.localGender = newVal || '';
-    },
-    number(newVal) {
-      this.localNumber = newVal || '';
-    },
-    case(newVal) {
-      this.localCase = newVal || '';
-    },
-  },
-  methods: {
-    selectGender(g: Gender) {
-      this.localGender = g;
-      this.$emit('update:gender', g);
-    },
-    selectNumber(n: Quantity) {
-      this.localNumber = n;
-      this.$emit('update:number', n);
-    },
-    selectCase(c: Case) {
-      this.localCase = c;
-      this.$emit('update:case', c);
-    },
-    genderLabel(g: string): string {
-      const labels: Record<string, string> = {
-        masculine: 'Muški rod',
-        feminine: 'Ženski rod',
-        neuter: 'Srednji rod',
-      };
-      return labels[g] || g;
-    },
-    numberLabel(n: string): string {
-      const labels: Record<string, string> = {
-        singular: 'Jednina',
-        plural: 'Množina',
-      };
-      return labels[n] || n;
-    },
-    caseLabel(c: string): string {
-      const labels: Record<string, string> = {
-        nominative: 'Nominativ',
-        genitive: 'Genitiv',
-        dative: 'Dativ',
-        accusative: 'Akuzativ',
-        locative: 'Lokativ',
-        instrumental: 'Instrumental',
-      };
-      return labels[c] || c;
-    },
-  },
+interface Props {
+  gender?: Gender | '';
+  number?: Quantity | '';
+  case?: Case | '';
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  gender: '',
+  number: '',
+  case: '',
 });
+
+const emit = defineEmits<{
+  'update:gender': [value: Gender];
+  'update:number': [value: Quantity];
+  'update:case': [value: Case];
+}>();
+
+const localGender = ref<Gender | ''>(props.gender);
+const localNumber = ref<Quantity | ''>(props.number);
+const localCase = ref<Case | ''>(props.case);
+
+watch(() => props.gender, (newVal) => {
+  localGender.value = newVal || '';
+});
+
+watch(() => props.number, (newVal) => {
+  localNumber.value = newVal || '';
+});
+
+watch(() => props.case, (newVal) => {
+  localCase.value = newVal || '';
+});
+
+const selectGender = (g: Gender) => {
+  localGender.value = g;
+  emit('update:gender', g);
+};
+
+const selectNumber = (n: Quantity) => {
+  localNumber.value = n;
+  emit('update:number', n);
+};
+
+const selectCase = (c: Case) => {
+  localCase.value = c;
+  emit('update:case', c);
+};
+
+const genderLabel = (g: string): string => {
+  const labels: Record<string, string> = {
+    masculine: 'Muški rod',
+    feminine: 'Ženski rod',
+    neuter: 'Srednji rod',
+  };
+  return labels[g] || g;
+};
+
+const numberLabel = (n: string): string => {
+  const labels: Record<string, string> = {
+    singular: 'Jednina',
+    plural: 'Množina',
+  };
+  return labels[n] || n;
+};
+
+const caseLabel = (c: string): string => {
+  const labels: Record<string, string> = {
+    nominative: 'Nominativ',
+    genitive: 'Genitiv',
+    dative: 'Dativ',
+    accusative: 'Akuzativ',
+    locative: 'Lokativ',
+    instrumental: 'Instrumental',
+  };
+  return labels[c] || c;
+};
 </script>
 
 <style scoped>
