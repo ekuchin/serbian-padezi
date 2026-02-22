@@ -3,25 +3,25 @@
     <div v-if="hasSelection" class="result-content">
       <div class="result-section">
         <h3>Окончание существительных</h3>
-        <p class="ending">{{ caseData?.ending }}</p>
+        <p class="ending">{{ caseData?.nounEnding }}</p>
       </div>
 
       <div class="result-section">
         <h3>Окончание прилагательных</h3>
-        <p class="ending">{{ adjectiveInfo?.ending }}</p>
+        <p class="ending">{{ caseData?.adjectiveEnding }}</p>
       </div>
 
       <div class="result-section">
         <h3>Предлоги</h3>
-        <ul v-if="caseData?.prepositions && caseData.prepositions.length > 0" class="prepositions">
-          <li v-for="(prep, idx) in caseData.prepositions" :key="idx">{{ prep }}</li>
+        <ul v-if="prepositions.length > 0" class="prepositions">
+          <li v-for="(prep, idx) in prepositions" :key="idx">{{ prep }}</li>
         </ul>
         <p v-else class="none">Нет типичных предлогов</p>
       </div>
 
       <div class="result-section">
         <h3>Пример</h3>
-        <p class="example">{{ caseData?.example }}</p>
+        <p class="example">{{ caseData?.nounExample }}</p>
       </div>
     </div>
 
@@ -33,8 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { cases, Gender, Quantity, Case, CaseInfo } from '../data/cases';
-import { adjectiveEndings, AdjectiveInfo } from '../data/adjectives';
+import { CaseName as Case, Gender, Quantity, ReferenceInfo, casePrepositions, referenceData } from '../data/reference';
 
 export default defineComponent({
   name: 'ResultDisplay',
@@ -56,16 +55,13 @@ export default defineComponent({
     hasSelection(): boolean {
       return !!this.gender && !!this.number && !!this.case;
     },
-    caseData(): CaseInfo | null {
+    caseData(): ReferenceInfo | null {
       if (!this.hasSelection) return null;
-      return cases[this.gender!][this.number!][this.case!] || null;
+      return referenceData[this.case!][this.gender!][this.number!] || null;
     },
-    adjectiveInfo(): AdjectiveInfo | null {
-      if (!this.hasSelection) return null;
-      const caseKey = this.case!;
-      const key = this.number === 'plural' ? 'plural' : this.gender!;
-      // @ts-ignore - index with dynamic key (masculine|feminine|neuter|plural)
-      return (adjectiveEndings as any)[caseKey]?.[key] || null;
+    prepositions(): string[] {
+      if (!this.hasSelection) return [];
+      return casePrepositions[this.case!] || [];
     },
   },
 });
@@ -154,3 +150,5 @@ h3 {
   font-size: 16px;
 }
 </style>
+
+

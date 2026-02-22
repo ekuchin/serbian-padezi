@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { Gender, Quantity, Case } from '../data/cases';
+import { CaseName as Case, Gender, Quantity } from '../data/reference';
 
 interface Props {
   gender?: Gender | '';

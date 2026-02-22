@@ -30,7 +30,7 @@
 import { defineComponent } from 'vue';
 import CaseSelector from './components/CaseSelector.vue';
 import ResultDisplay from './components/ResultDisplay.vue';
-import { Gender, Quantity, Case } from './data/cases';
+import { CaseName as Case, Gender, Quantity } from './data/reference';
 
 export default defineComponent({
   name: 'App',
