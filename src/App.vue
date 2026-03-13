@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <header class="header">
-      <h1>Сербские падежи (Padezi) - Справочник</h1>
-      <p class="subtitle">
-        Выберите род, число и падеж для просмотра окончаний, предлогов и примеров
-      </p>
+      <h1>Падежи в сербском - Справочник</h1>
     </header>
 
     <main class="main">
@@ -59,7 +56,7 @@ export default defineComponent({
 .header {
   background-color: #f0f0f0;
   color: #222;
-  padding: 40px 20px;
+  padding: 20px 20px;
   text-align: center;
   border-bottom: 4px solid #cccccc;
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="selector-container">
     <div class="selector-group">
-      <label>Род:</label>
       <div class="button-row">
         <button
           v-for="g in ['masculine', 'feminine', 'neuter']"
@@ -15,7 +14,6 @@
     </div>
 
     <div class="selector-group">
-      <label>Число:</label>
       <div class="button-row">
         <button
           v-for="n in ['singular', 'plural']"
@@ -29,7 +27,6 @@
     </div>
 
     <div class="selector-group">
-      <label>Падеж:</label>
       <div class="button-row cases-row">
         <button
           v-for="c in [

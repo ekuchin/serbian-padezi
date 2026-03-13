@@ -12,11 +12,18 @@
       </div>
 
       <div class="result-section">
+        <h3>Вопросы</h3>
+        <p class="combined">{{ questionsLine }}</p>
+      </div>
+
+      <div class="result-section">
+        <h3>Глаголы</h3>
+        <p class="combined">{{ verbsLine }}</p>
+      </div>
+
+      <div class="result-section">
         <h3>Предлоги</h3>
-        <ul v-if="prepositions.length > 0" class="prepositions">
-          <li v-for="(prep, idx) in prepositions" :key="idx">{{ prep }}</li>
-        </ul>
-        <p v-else class="none">Нет типичных предлогов</p>
+        <p class="combined">{{ prepositionsLine }}</p>
       </div>
 
       <div class="result-section">
@@ -26,14 +33,25 @@
     </div>
 
     <div v-else class="no-selection">
-      <p>Выберите род, число и падеж для просмотра информации</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { CaseName as Case, Gender, Quantity, ReferenceInfo, casePrepositions, referenceData } from '../data/reference';
+import {
+  CaseName as Case,
+  Gender,
+  Quantity,
+  ReferenceInfo,
+  casePrepositions,
+  caseQuestions,
+  caseVerbs,
+  referenceData,
+} from '../data/reference';
+
+const formatLine = (items: string[], fallback: string): string =>
+  items.length ? items.join(', ') : fallback;
 
 export default defineComponent({
   name: 'ResultDisplay',
@@ -62,6 +80,23 @@ export default defineComponent({
     prepositions(): string[] {
       if (!this.hasSelection) return [];
       return casePrepositions[this.case!] || [];
+    },
+    questions(): string[] {
+      if (!this.hasSelection) return [];
+      return caseQuestions[this.case!] || [];
+    },
+    verbs(): string[] {
+      if (!this.hasSelection) return [];
+      return caseVerbs[this.case!] || [];
+    },
+    verbsLine(): string {
+      return formatLine(this.verbs, 'Нет типичных глаголов');
+    },
+    prepositionsLine(): string {
+      return formatLine(this.prepositions, 'Нет типичных предлогов');
+    },
+    questionsLine(): string {
+      return formatLine(this.questions, 'Нет типичных вопросов');
     },
   },
 });

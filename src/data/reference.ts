@@ -17,6 +17,8 @@ export interface ReferenceInfo {
 
 export type ReferenceData = Record<CaseName, Record<Gender, Record<Quantity, ReferenceInfo>>>;
 export type CasePrepositions = Record<CaseName, string[]>;
+export type CaseQuestions = Record<CaseName, string[]>;
+export type CaseVerbs = Record<CaseName, string[]>;
 
 export const casePrepositions: CasePrepositions = {
   "nominative": [],
@@ -48,6 +50,24 @@ export const casePrepositions: CasePrepositions = {
     "na (на)",
     "po (за)"
   ]
+};
+
+export const caseQuestions: CaseQuestions = {
+  nominative: ['Ко?', 'Шта?'],
+  genitive: ['Кога?', 'Чега?'],
+  dative: ['Коме?', 'Чему?'],
+  accusative: ['Кога?', 'Шта?'],
+  instrumental: ['С ким?', 'С чим?'],
+  locative: ['О коме?', 'О чему?', 'На чему?', 'У чему?'],
+};
+
+export const caseVerbs: CaseVerbs = {
+  nominative: ['бити', 'постојати', 'ходати'],
+  genitive: ['сећати се', 'плашити се', 'присуствовати'],
+  dative: ['веровати', 'помоћи', 'приступити'],
+  accusative: ['волети', 'видети', 'слушати', 'позвати'],
+  instrumental: ['бавити се', 'сложити се', 'путовати'],
+  locative: ['причати о', 'размишљати о', 'сањати о'],
 };
 
 export const referenceData: ReferenceData = {
@@ -280,4 +300,3 @@ export const referenceData: ReferenceData = {
     }
   },
 };
-
