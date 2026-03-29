@@ -12,6 +12,11 @@
       </div>
 
       <div class="result-section">
+        <h3>Типичное употребление</h3>
+        <p class="combined">{{ usageLine }}</p>
+      </div>
+
+      <div class="result-section">
         <h3>Вопросы</h3>
         <p class="combined">{{ questionsLine }}</p>
       </div>
@@ -47,6 +52,7 @@ import {
   casePrepositions,
   caseQuestions,
   caseVerbs,
+  caseUsage,
   referenceData,
 } from '../data/reference';
 
@@ -91,6 +97,10 @@ export default defineComponent({
     },
     verbsLine(): string {
       return formatLine(this.verbs, 'Нет типичных глаголов');
+    },
+    usageLine(): string {
+      if (!this.hasSelection) return '';
+      return caseUsage[this.case!] || 'Нет типичного употребления';
     },
     prepositionsLine(): string {
       return formatLine(this.prepositions, 'Нет типичных предлогов');

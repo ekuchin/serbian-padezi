@@ -1,55 +1,59 @@
 <template>
-  <div class="selector-container">
-    <div class="selector-group">
-      <div class="button-row">
-        <button
-          v-for="g in ['masculine', 'feminine', 'neuter']"
-          :key="g"
-          :class="['selector-btn', { active: localGender === g }]"
-          @click="selectGender(g as Gender)"
-        >
-          {{ genderLabel(g) }}
-        </button>
+  <div ref="selectorContainerRef" class="selector-container">
+    <div class="top-row" :style="{ paddingInline: topRowPadding }">
+      <div class="selector-group left-group">
+        <div class="button-row left-row">
+          <button
+            v-for="g in ['masculine', 'feminine', 'neuter']"
+            :key="g"
+            :class="['selector-btn', { active: localGender === g }]"
+            @click="selectGender(g as Gender)"
+          >
+            {{ genderLabel(g) }}
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="selector-group">
-      <div class="button-row">
-        <button
-          v-for="n in ['singular', 'plural']"
-          :key="n"
-          :class="['selector-btn', { active: localNumber === n }]"
-          @click="selectNumber(n as Quantity)"
-        >
-          {{ numberLabel(n) }}
-        </button>
+      <div class="selector-group right-group">
+        <div class="button-row right-row">
+          <button
+            v-for="n in ['singular', 'plural']"
+            :key="n"
+            :class="['selector-btn', { active: localNumber === n }]"
+            @click="selectNumber(n as Quantity)"
+          >
+            {{ numberLabel(n) }}
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="selector-group">
       <div class="button-row cases-row">
-        <button
-          v-for="c in [
-            'nominative',
-            'genitive',
-            'dative',
-            'accusative',
-            'locative',
-            'instrumental',
-          ]"
-          :key="c"
-          :class="['selector-btn', { active: localCase === c }]"
-          @click="selectCase(c as Case)"
-        >
-          {{ caseLabel(c) }}
-        </button>
+        <div ref="casesClusterRef" class="cases-cluster">
+          <button
+            v-for="c in [
+              'nominative',
+              'genitive',
+              'dative',
+              'accusative',
+              'locative',
+              'instrumental',
+            ]"
+            :key="c"
+            :class="['selector-btn', { active: localCase === c }]"
+            @click="selectCase(c as Case)"
+          >
+            {{ caseLabel(c) }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { CaseName as Case, Gender, Quantity } from '../data/reference';
 
 interface Props {
@@ -73,6 +77,18 @@ const emit = defineEmits<{
 const localGender = ref<Gender | ''>(props.gender);
 const localNumber = ref<Quantity | ''>(props.number);
 const localCase = ref<Case | ''>(props.case);
+const selectorContainerRef = ref<HTMLElement | null>(null);
+const casesClusterRef = ref<HTMLElement | null>(null);
+const topRowPadding = ref('0px');
+let resizeObserver: ResizeObserver | null = null;
+
+const syncTopRowPadding = () => {
+  if (!selectorContainerRef.value || !casesClusterRef.value) return;
+  const containerWidth = selectorContainerRef.value.getBoundingClientRect().width;
+  const clusterWidth = casesClusterRef.value.getBoundingClientRect().width;
+  const sidePadding = Math.max(0, (containerWidth - clusterWidth) / 2);
+  topRowPadding.value = `${sidePadding}px`;
+};
 
 watch(() => props.gender, (newVal) => {
   localGender.value = newVal || '';
@@ -84,6 +100,22 @@ watch(() => props.number, (newVal) => {
 
 watch(() => props.case, (newVal) => {
   localCase.value = newVal || '';
+});
+
+onMounted(() => {
+  syncTopRowPadding();
+  if (typeof ResizeObserver !== 'undefined' && selectorContainerRef.value && casesClusterRef.value) {
+    resizeObserver = new ResizeObserver(syncTopRowPadding);
+    resizeObserver.observe(selectorContainerRef.value);
+    resizeObserver.observe(casesClusterRef.value);
+  } else {
+    window.addEventListener('resize', syncTopRowPadding);
+  }
+});
+
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect();
+  window.removeEventListener('resize', syncTopRowPadding);
 });
 
 const selectGender = (g: Gender) => {
@@ -103,9 +135,9 @@ const selectCase = (c: Case) => {
 
 const genderLabel = (g: string): string => {
   const labels: Record<string, string> = {
-    masculine: 'Muški rod',
-    feminine: 'Ženski rod',
-    neuter: 'Srednji rod',
+    masculine: 'Muški',
+    feminine: 'Ženski',
+    neuter: 'Srednji',
   };
   return labels[g] || g;
 };
@@ -139,10 +171,27 @@ const caseLabel = (c: string): string => {
   margin-bottom: 30px;
 }
 
+.top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .selector-group {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.left-group {
+  align-items: flex-start;
+}
+
+.right-group {
+  align-items: flex-end;
 }
 
 label {
@@ -157,8 +206,29 @@ label {
   flex-wrap: wrap;
 }
 
+.left-row {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.right-row {
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
 .cases-row {
+  justify-content: center;
   gap: 8px;
+}
+
+.cases-cluster {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cases-row .selector-btn {
+  justify-content: center;
 }
 
 .selector-btn {

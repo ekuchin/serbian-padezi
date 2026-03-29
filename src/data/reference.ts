@@ -19,6 +19,7 @@ export type ReferenceData = Record<CaseName, Record<Gender, Record<Quantity, Ref
 export type CasePrepositions = Record<CaseName, string[]>;
 export type CaseQuestions = Record<CaseName, string[]>;
 export type CaseVerbs = Record<CaseName, string[]>;
+export type CaseUsage = Record<CaseName, string>;
 
 export const casePrepositions: CasePrepositions = {
   "nominative": [],
@@ -68,6 +69,15 @@ export const caseVerbs: CaseVerbs = {
   accusative: ['волети', 'видети', 'слушати', 'позвати'],
   instrumental: ['бавити се', 'сложити се', 'путовати'],
   locative: ['причати о', 'размишљати о', 'сањати о'],
+};
+
+export const caseUsage: CaseUsage = {
+  nominative: 'Именительный - кто? что?; подлежащее, название предмета или лица',
+  genitive: 'Родительный - кого? чего?; принадлежность, отсутствие, количество',
+  dative: 'Дательный - кому? чему?; адресат действия, направление',
+  accusative: 'Винительный - непосредственное воздействие на объект (кого? что?)',
+  locative: 'Предложный - о ком? о чем?; речь, тема, место',
+  instrumental: 'Творительный - с кем? с чем?; совместность, инструмент, способ',
 };
 
 export const referenceData: ReferenceData = {
