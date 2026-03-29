@@ -11,24 +11,28 @@
         <p class="ending">{{ caseData?.adjectiveEnding }}</p>
       </div>
 
-      <div class="result-section">
-        <h3>Типичное употребление</h3>
-        <p class="combined">{{ usageLine }}</p>
+      <div class="result-row">
+        <div class="result-section result-card">
+          <h3>Типичное употребление</h3>
+          <p class="combined">{{ usageLine }}</p>
+        </div>
+
+        <div class="result-section result-card">
+          <h3>Вопросы</h3>
+          <p class="combined">{{ questionsLine }}</p>
+        </div>
       </div>
 
-      <div class="result-section">
-        <h3>Вопросы</h3>
-        <p class="combined">{{ questionsLine }}</p>
-      </div>
+      <div class="result-row">
+        <div class="result-section result-card">
+          <h3>Глаголы</h3>
+          <p class="combined">{{ verbsLine }}</p>
+        </div>
 
-      <div class="result-section">
-        <h3>Глаголы</h3>
-        <p class="combined">{{ verbsLine }}</p>
-      </div>
-
-      <div class="result-section">
-        <h3>Предлоги</h3>
-        <p class="combined">{{ prepositionsLine }}</p>
+        <div class="result-section result-card">
+          <h3>Предлоги</h3>
+          <p class="combined">{{ prepositionsLine }}</p>
+        </div>
       </div>
 
       <div class="result-section">
@@ -58,6 +62,15 @@ import {
 
 const formatLine = (items: string[], fallback: string): string =>
   items.length ? items.join(', ') : fallback;
+
+const questionDisplayByCase: Partial<Record<Case, string[]>> = {
+  nominative: ['Кто? (Ko?)', 'Что? (Šta?)'],
+  genitive: ['Кого? (Koga?)', 'Чего? (Čega?)'],
+  dative: ['Кому? (Kome?)', 'Чему? (Čemu?)'],
+  accusative: ['Кого? (Koga?)', 'Что? (Šta?)'],
+  instrumental: ['С кем? (S kim?)', 'С чем? (S čim?)'],
+  locative: ['О ком? (O kome?)', 'О чем? (O čemu?)', 'На чем? (Na čemu?)', 'В чем? (U čemu?)'],
+};
 
 export default defineComponent({
   name: 'ResultDisplay',
@@ -106,7 +119,9 @@ export default defineComponent({
       return formatLine(this.prepositions, 'Нет типичных предлогов');
     },
     questionsLine(): string {
-      return formatLine(this.questions, 'Нет типичных вопросов');
+      if (!this.hasSelection) return 'Нет типичных вопросов';
+      const questions = questionDisplayByCase[this.case!] || this.questions;
+      return formatLine(questions, 'Нет типичных вопросов');
     },
   },
 });
@@ -132,8 +147,23 @@ export default defineComponent({
   margin-bottom: 25px;
 }
 
+.result-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.result-card {
+  margin-bottom: 0;
+}
+
 .result-section:last-child {
   margin-bottom: 0;
+}
+
+.result-row:last-of-type {
+  margin-bottom: 25px;
 }
 
 h3 {
@@ -193,6 +223,12 @@ h3 {
   text-align: center;
   color: #999;
   font-size: 16px;
+}
+
+@media (max-width: 720px) {
+  .result-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 
